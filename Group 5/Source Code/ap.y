@@ -16,27 +16,75 @@ def create_array():
 
 
 def insert_array():
+    options = [
+        "Insert by index",
+        "Insert at the end",
+        "Insert at the beginning"
+    ]
+    choice = simpledialog.askinteger("Insert",
+                                     "Select an option:\n1. Insert by index\n2. Insert at the end\n3. Insert at the beginning")
 
-    try:
-        value = simpledialog.askinteger("Insert", "Enter a value:")
-        if value is not None:
-            array.append(value)
-            label.config(text="Array: " + str(array))
-    except ValueError:
-        messagebox.showerror("Error", "Enter an integer value!")
+    if choice == 1:  # Insert by index
+        try:
+            index = simpledialog.askinteger("Insert", "Enter an index:")
+            if index is not None and 0 <= index <= len(array):
+                value = simpledialog.askinteger("Insert", "Enter a value:")
+                if value is not None:
+                    array.insert(index, value)
+                    label.config(text="Array: " + str(array))
+            else:
+                messagebox.showerror("Error", "Invalid index!")
+        except ValueError:
+            messagebox.showerror("Error", "Enter an integer index!")
+    elif choice == 2:  # Insert at the end
+        try:
+            value = simpledialog.askinteger("Insert", "Enter a value:")
+            if value is not None:
+                array.append(value)
+                label.config(text="Array: " + str(array))
+        except ValueError:
+            messagebox.showerror("Error", "Enter an integer value!")
+    elif choice == 3:  # Insert at the beginning
+        try:
+            value = simpledialog.askinteger("Insert", "Enter a value:")
+            if value is not None:
+                array.insert(0, value)
+                label.config(text="Array: " + str(array))
+        except ValueError:
+            messagebox.showerror("Error", "Enter an integer value!")
 
 
 def delete_array():
+    options = [
+        "Delete by index",
+        "Delete at the end",
+        "Delete at the beginning"
+    ]
+    choice = simpledialog.askinteger("Delete",
+                                     "Select an option:\n1. Delete by index\n2. Delete at the end\n3. Delete at the beginning")
 
-    try:
-        index = simpledialog.askinteger("Delete", "Enter an index:")
-        if index is not None and index >= 0 and index < len(array):
-            del array[index]
+    if choice == 1:  # Delete by index
+        try:
+            index = simpledialog.askinteger("Delete", "Enter an index:")
+            if index is not None and 0 <= index < len(array):
+                del array[index]
+                label.config(text="Array: " + str(array))
+            else:
+                messagebox.showerror("Error", "Invalid index!")
+        except ValueError:
+            messagebox.showerror("Error", "Enter an integer index!")
+    elif choice == 2:  # Delete at the end
+        if len(array) > 0:
+            del array[-1]
             label.config(text="Array: " + str(array))
         else:
-            messagebox.showerror("Error", "Invalid index!")
-    except ValueError:
-        messagebox.showerror("Error", "Enter an integer index!")
+            messagebox.showerror("Error", "Array is empty!")
+    elif choice == 3:  # Delete at the beginning
+        if len(array) > 0:
+            del array[0]
+            label.config(text="Array: " + str(array))
+        else:
+            messagebox.showerror("Error", "Array is empty!")
 
 
 def open_array():
@@ -216,4 +264,5 @@ linkedlist_button = tk.Button(root, text="LinkedList", padx=50, pady=25,fg="whit
 linkedlist_button.grid(row=2, column=1,pady=30)
 
 root.mainloop()
+
 
