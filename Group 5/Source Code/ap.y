@@ -5,7 +5,7 @@ array = []
 
 def create_array():
     global array
-    values = simpledialog.askstring("Create Array", "Enter values separated by comma")
+    values = simpledialog.askstring("Create", "Enter values separated by comma")
     if values is not None:
         values_list = values.split(",")
         try:
@@ -85,6 +85,34 @@ def delete_array():
             label.config(text="Array: " + str(array))
         else:
             messagebox.showerror("Error", "Array is empty!")
+def update_array():
+    global array
+    if len(array) == 0:
+        messagebox.showerror("Error", "Array is empty!")
+        return
+
+    index = simpledialog.askinteger("Update", "Enter the index of the value to replace:")
+    if index is not None and 0 <= index < len(array):
+        new_value = simpledialog.askinteger("Update", "Enter the new value:")
+        if new_value is not None:
+            array[index] = new_value
+            label.config(text="Array: " + str(array))
+    else:
+        messagebox.showerror("Error", "Invalid index!")
+
+
+
+
+
+def search_array():
+    global array
+    value = simpledialog.askinteger("Search", "Enter a value to search for:")
+    if value is not None:
+        if value in array:
+            index = array.index(value)
+            messagebox.showinfo("Search Result", f"The value {value} was found at index {index} in the array.")
+        else:
+            messagebox.showinfo("Search Result", f"The value {value} was not found in the array.")
 
 
 def open_array():
@@ -98,13 +126,19 @@ def open_array():
     frame.pack()
     label = tk.Label(frame, text="Array: ", font=("Arial", 24))
     label.pack(pady=20)
-    create_button = tk.Button(frame, text="Create",padx=20,pady=10,command=create_array, bg="black", fg="white",
+    create_button = tk.Button(frame, text="Create",padx=5,pady=10,command=create_array, bg="black", fg="white",
                               font=("Arial", 14))
     create_button.pack(side=tk.LEFT, padx=30,pady=60)
-    insert_button = tk.Button(frame, text="Insert", padx=20,pady=10,command=insert_array, bg="green", fg="black",
+    insert_button = tk.Button(frame, text="Insert", padx=5,pady=10,command=insert_array, bg="green", fg="black",
                               font=("Arial", 14))
     insert_button.pack(side=tk.LEFT, padx=30)
-    delete_button = tk.Button(frame, text="Delete", padx=20,pady=10,command=delete_array, bg="red", fg="black",
+    update_button = tk.Button(frame, text="Update", padx=5, pady=10, command=update_array, bg="yellow", fg="black",
+                              font=("Arial", 14))
+    update_button.pack(side=tk.LEFT, padx=30)
+    search_button = tk.Button(frame, text="Search", padx=5, pady=10, command=search_array, bg="navy", fg="white",
+                              font=("Arial", 14))
+    search_button.pack(side=tk.LEFT, padx=30)
+    delete_button = tk.Button(frame, text="Delete", padx=5,pady=10,command=delete_array, bg="red", fg="black",
                               font=("Arial", 14))
     delete_button.pack(side=tk.LEFT, padx=30)
 
@@ -181,7 +215,7 @@ def perform_linked_list_operation(event, canvas, node_positions, arrows):
 
     if clicked_node is not None:
         choice = simpledialog.askstring("Linked List Operation",
-        "Select an operation:\n1. Insert at the end\n2. Insert at the beginning\n3. Update\n4. Insert at index\n5. Delete the first node\n6. Delete the last node\n7. Delete this node\n8. Delete at index"
+        "Select an operation:\n1. Insert at the end\n2. Insert at the beginning\n3. Update\n4. Insert at index\n5. Delete the first node\n6. Delete the last node\n7. Delete this node\n8. Delete at index\n9. Search"
         )
         if choice is None:
             return
@@ -224,6 +258,13 @@ def perform_linked_list_operation(event, canvas, node_positions, arrows):
                 messagebox.showerror("Error", "Invalid index!")
                 return
             linked_list.pop(index)
+        elif choice == "9":  # Search
+            value = simpledialog.askinteger("Search", "Enter the value:")
+            if value is None:
+                return
+            position = linked_list.index(value) if value in linked_list else -1
+            messagebox.showinfo("Search Result",
+                                f"The value {value} is at position {position + 1}" if position != -1 else "The value was not found.")
 
         canvas.delete("all")
         node_positions = []
@@ -264,5 +305,3 @@ linkedlist_button = tk.Button(root, text="LinkedList", padx=50, pady=25,fg="whit
 linkedlist_button.grid(row=2, column=1,pady=30)
 
 root.mainloop()
-
-
