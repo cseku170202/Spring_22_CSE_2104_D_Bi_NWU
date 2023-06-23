@@ -4,4 +4,4 @@ Members Email: nabanitabhadra.2k@gmail.com,razon.khulna.9000@gmail.com,shahajadi
 Supervisor: Md.Shymon Islam 
 Lecturer 
 Department of CSE
-North Western University,Khulna,Bangladesh 
+North Western University,Khulna,Bangladesh. 
